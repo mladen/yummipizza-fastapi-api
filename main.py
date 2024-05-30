@@ -1,11 +1,25 @@
-# main.py
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.future import select
 
 app = FastAPI()
+
+# CORS settings
+origins = [
+    "http://localhost:3000",  # React frontend URL
+    "https://yummipizza-api-test.herokuapp.com",  # Your deployed frontend URL (if applicable)
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 DATABASE_URL = "sqlite+aiosqlite:///./sqlite/meals.db"
 
